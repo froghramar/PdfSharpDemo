@@ -1,4 +1,5 @@
 ﻿using MigraDocCore.DocumentObjectModel;
+using MigraDocCore.DocumentObjectModel.Shapes;
 using MigraDocCore.DocumentObjectModel.Tables;
 using MigraDocCore.Rendering;
 using PdfSharpCore.Drawing;
@@ -37,11 +38,18 @@ public static class SimpleInvoiceGenerator
         section.AddParagraph(data.PayTo.BankName);
         section.AddParagraph($"Account Name: {data.PayTo.AccountName}");
         section.AddParagraph($"Account No.: {data.PayTo.AccountNumber}");
-        
-        var invoiceDetails = section.AddParagraph($"INVOICE NO: {data.InvoiceNumber}");
+
+        var invoiceDetailsFrame = section.AddTextFrame();
+        var invoiceDetails = invoiceDetailsFrame.AddParagraph($"INVOICE NO: {data.InvoiceNumber}");
         invoiceDetails.Format.Font.Bold = true;
-        section.AddParagraph($"DATE: {data.InvoiceDate:dd/MM/yyyy}");
-        section.AddParagraph($"DUE DATE: {data.DueDate:dd/MM/yyyy}");
+        invoiceDetailsFrame.AddParagraph($"DATE: {data.InvoiceDate:dd/MM/yyyy}");
+        invoiceDetailsFrame.AddParagraph($"DUE DATE: {data.DueDate:dd/MM/yyyy}");
+        invoiceDetailsFrame.Height = "3.0cm";
+        invoiceDetailsFrame.Width = "7.0cm";
+        invoiceDetailsFrame.Left = ShapePosition.Right;
+        invoiceDetailsFrame.RelativeHorizontal = RelativeHorizontal.Margin;
+        invoiceDetailsFrame.Top = "0cm";
+        invoiceDetailsFrame.RelativeVertical = RelativeVertical.Page;
 
         var pdfDocument = new PdfDocument
         {
