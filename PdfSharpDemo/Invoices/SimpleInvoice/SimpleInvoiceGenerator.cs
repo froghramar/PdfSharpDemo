@@ -57,6 +57,41 @@ public static class SimpleInvoiceGenerator
                 FitWindow = true
             }
         };
+        
+        AddSpace(section, Unit.FromPoint(20));
+        var itemsTable = section.AddTable();
+        itemsTable.AddColumn(Unit.FromPoint(200));
+        itemsTable.AddColumn(Unit.FromPoint(100));
+        itemsTable.AddColumn(Unit.FromPoint(100));
+        itemsTable.AddColumn(Unit.FromPoint(100));
+        
+        var titleRow = itemsTable.AddRow();
+        titleRow[0].AddParagraph("DESCRIPTION");
+        
+        titleRow[1].AddParagraph("UNIT PRICE");
+        titleRow[1].Format.Alignment = ParagraphAlignment.Right;
+        
+        titleRow[2].AddParagraph("QTY");
+        titleRow[2].Format.Alignment = ParagraphAlignment.Right;
+        
+        titleRow[3].AddParagraph("TOTAL");
+        titleRow[3].Format.Alignment = ParagraphAlignment.Right;
+        
+        foreach (var item in data.Items)
+        {
+            var itemRow = itemsTable.AddRow();
+            itemRow[0].AddParagraph(item.Description);
+            
+            itemRow[1].AddParagraph(item.UnitPrice.ToString("C"));
+            itemRow[1].Format.Alignment = ParagraphAlignment.Right;
+            
+            itemRow[2].AddParagraph(item.Quantity.ToString("F"));
+            itemRow[2].Format.Alignment = ParagraphAlignment.Right;
+            
+            itemRow[3].AddParagraph(item.Total.ToString("C"));
+            itemRow[3].Format.Alignment = ParagraphAlignment.Right;
+        }
+        
         // var page = pdfDocument.Pages[0];
         // page.Width = XUnit.FromMillimeter(210);
         // page.Height = XUnit.FromMillimeter(297);
