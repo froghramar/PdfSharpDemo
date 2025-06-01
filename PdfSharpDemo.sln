@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSharpDemo", "PdfSharpDemo\PdfSharpDemo.csproj", "{4C070E2C-1498-4346-88CB-2A88B6635BD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSharpDemo.Console", "PdfSharpDemo.Console\PdfSharpDemo.Console.csproj", "{F1D757B0-FBB0-4691-B03C-FF0FBB836419}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{4C070E2C-1498-4346-88CB-2A88B6635BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C070E2C-1498-4346-88CB-2A88B6635BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C070E2C-1498-4346-88CB-2A88B6635BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1D757B0-FBB0-4691-B03C-FF0FBB836419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1D757B0-FBB0-4691-B03C-FF0FBB836419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1D757B0-FBB0-4691-B03C-FF0FBB836419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1D757B0-FBB0-4691-B03C-FF0FBB836419}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
