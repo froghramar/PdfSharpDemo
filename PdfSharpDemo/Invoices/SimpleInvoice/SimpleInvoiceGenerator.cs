@@ -18,11 +18,6 @@ public static class SimpleInvoiceGenerator
         style.ParagraphFormat.SpaceAfter = Unit.FromPoint(3);
 
         var section = document.AddSection();
-        section.PageSetup.PageWidth = Unit.FromCentimeter(41);
-        section.PageSetup.PageHeight = Unit.FromCentimeter(29.7);
-        section.PageSetup.LeftMargin = Unit.FromCentimeter(1);
-        section.PageSetup.TopMargin = Unit.FromCentimeter(1);
-        section.PageSetup.BottomMargin = Unit.FromCentimeter(1);
         
         var header = section.AddParagraph("INVOICE");
         header.Format.Font.Bold = true;
@@ -33,6 +28,7 @@ public static class SimpleInvoiceGenerator
         section.AddParagraph(data.IssuedTo.AddressLine1);
         section.AddParagraph(data.IssuedTo.AddressLine2);
         
+        AddSpace(section, Unit.FromPoint(10));
         var payToHeader = section.AddParagraph("PAY TO:");
         payToHeader.Format.Font.Bold = true;
         section.AddParagraph(data.PayTo.BankName);
@@ -42,14 +38,16 @@ public static class SimpleInvoiceGenerator
         var invoiceDetailsFrame = section.AddTextFrame();
         var invoiceDetails = invoiceDetailsFrame.AddParagraph($"INVOICE NO: {data.InvoiceNumber}");
         invoiceDetails.Format.Font.Bold = true;
-        invoiceDetailsFrame.AddParagraph($"DATE: {data.InvoiceDate:dd/MM/yyyy}");
-        invoiceDetailsFrame.AddParagraph($"DUE DATE: {data.DueDate:dd/MM/yyyy}");
+        invoiceDetails.Format.Alignment = ParagraphAlignment.Right;
+        var date = invoiceDetailsFrame.AddParagraph($"DATE: {data.InvoiceDate:dd/MM/yyyy}");
+        date.Format.Alignment = ParagraphAlignment.Right;
+        var dueDate = invoiceDetailsFrame.AddParagraph($"DUE DATE: {data.DueDate:dd/MM/yyyy}");
+        dueDate.Format.Alignment = ParagraphAlignment.Right;
         invoiceDetailsFrame.Height = "3.0cm";
         invoiceDetailsFrame.Width = "7.0cm";
         invoiceDetailsFrame.Left = ShapePosition.Right;
         invoiceDetailsFrame.RelativeHorizontal = RelativeHorizontal.Margin;
-        invoiceDetailsFrame.Top = "0cm";
-        invoiceDetailsFrame.RelativeVertical = RelativeVertical.Page;
+        invoiceDetailsFrame.RelativeVertical = RelativeVertical.Margin;
 
         var pdfDocument = new PdfDocument
         {
