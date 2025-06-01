@@ -37,6 +37,11 @@ public static class SimpleInvoiceGenerator
         section.AddParagraph(data.PayTo.BankName);
         section.AddParagraph($"Account Name: {data.PayTo.AccountName}");
         section.AddParagraph($"Account No.: {data.PayTo.AccountNumber}");
+        
+        var invoiceDetails = section.AddParagraph($"INVOICE NO: {data.InvoiceNumber}");
+        invoiceDetails.Format.Font.Bold = true;
+        section.AddParagraph($"DATE: {data.InvoiceDate:dd/MM/yyyy}");
+        section.AddParagraph($"DUE DATE: {data.DueDate:dd/MM/yyyy}");
 
         var pdfDocument = new PdfDocument
         {
