@@ -1,6 +1,7 @@
 ﻿using MigraDocCore.DocumentObjectModel;
 using MigraDocCore.DocumentObjectModel.Tables;
 using MigraDocCore.Rendering;
+using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 
 namespace PdfSharpDemo.Invoices.SimpleInvoice;
@@ -21,18 +22,41 @@ public static class SimpleInvoiceGenerator
         section.PageSetup.LeftMargin = Unit.FromCentimeter(1);
         section.PageSetup.TopMargin = Unit.FromCentimeter(1);
         section.PageSetup.BottomMargin = Unit.FromCentimeter(1);
+        
+        var header = section.AddParagraph("INVOICE");
+        header.Format.Font.Bold = true;
+        
+        var issuedToHeader = section.AddParagraph("ISSUED TO:");
+        issuedToHeader.Format.Font.Bold = true;
+        section.AddParagraph(data.IssuedTo.Name);
+        section.AddParagraph(data.IssuedTo.AddressLine1);
+        section.AddParagraph(data.IssuedTo.AddressLine2);
+        
+        var payToHeader = section.AddParagraph("PAY TO:");
+        payToHeader.Format.Font.Bold = true;
+        section.AddParagraph(data.PayTo.BankName);
+        section.AddParagraph($"Account Name: {data.PayTo.AccountName}");
+        section.AddParagraph($"Account No.: {data.PayTo.AccountNumber}");
+
+        var pdfDocument = new PdfDocument
+        {
+            PageLayout = PdfPageLayout.SinglePage,
+            ViewerPreferences =
+            {
+                FitWindow = true
+            }
+        };
+        // var page = pdfDocument.Pages[0];
+        // page.Width = XUnit.FromMillimeter(210);
+        // page.Height = XUnit.FromMillimeter(297);
+        // var gfx = XGraphics.FromPdfPage(page, XGraphicsPdfPageOptions.Append);
+        // var lineRed = new XPen(XColors.Red, 5);
+        // gfx.DrawLine(lineRed, 0, page.Height / 2, page.Width, page.Height / 2);
 
         var pdfRenderer = new PdfDocumentRenderer
         {
             Document = document,
-            PdfDocument = new PdfDocument
-            {
-                PageLayout = PdfPageLayout.SinglePage,
-                ViewerPreferences =
-                {
-                    FitWindow = true
-                }
-            }
+            PdfDocument = pdfDocument
         };
 
         pdfRenderer.RenderDocument();
