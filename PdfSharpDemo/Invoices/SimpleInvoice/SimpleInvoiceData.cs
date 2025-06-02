@@ -4,6 +4,7 @@ public class SimpleInvoiceData(
     string invoiceNumber,
     DateTime invoiceDate,
     DateTime dueDate,
+    decimal taxRate,
     SimpleInvoiceData.IssuedToAddress issuedTo,
     SimpleInvoiceData.PaymentAddress payTo,
     SimpleInvoiceData.InvoiceItem[] items)
@@ -11,6 +12,7 @@ public class SimpleInvoiceData(
     public string InvoiceNumber { get; set; } = invoiceNumber;
     public DateTime InvoiceDate { get; set; } = invoiceDate;
     public DateTime DueDate { get; set; } = dueDate;
+    public decimal TaxRate { get; set; } = taxRate;
     public IssuedToAddress IssuedTo { get; set; } = issuedTo;
     public PaymentAddress PayTo { get; set; } = payTo;
     public InvoiceItem[] Items { get; set; } = items;

@@ -67,6 +67,7 @@ public static class SimpleInvoiceGenerator
         titleRow[3].AddParagraph("TOTAL");
         titleRow[3].Format.Alignment = ParagraphAlignment.Right;
         
+        decimal subtotal = 0;
         foreach (var item in data.Items)
         {
             var itemRow = itemsTable.AddRow();
@@ -80,7 +81,60 @@ public static class SimpleInvoiceGenerator
             
             itemRow[3].AddParagraph(item.Total.ToString("C"));
             itemRow[3].Format.Alignment = ParagraphAlignment.Right;
+            
+            subtotal += item.Total;
         }
+        
+        // Add empty row for spacing
+        var spacingRow = itemsTable.AddRow();
+        spacingRow[0].AddParagraph("");
+        
+        // Add subtotal row
+        var subtotalRow = itemsTable.AddRow();
+        subtotalRow[0].AddParagraph("");
+        subtotalRow[1].AddParagraph("");
+        subtotalRow[2].AddParagraph("SUBTOTAL:");
+        subtotalRow[2].Format.Alignment = ParagraphAlignment.Right;
+        subtotalRow[2].Format.Font.Bold = true;
+        subtotalRow[3].AddParagraph(subtotal.ToString("C"));
+        subtotalRow[3].Format.Alignment = ParagraphAlignment.Right;
+        subtotalRow[3].Format.Font.Bold = true;
+        
+        // Calculate tax
+        decimal taxAmount = subtotal * data.TaxRate;
+        
+        // Add tax row
+        var taxRow = itemsTable.AddRow();
+        taxRow[0].AddParagraph("");
+        taxRow[1].AddParagraph("");
+        taxRow[2].AddParagraph($"TAX ({data.TaxRate:P1}):");
+        taxRow[2].Format.Alignment = ParagraphAlignment.Right;
+        taxRow[2].Format.Font.Bold = true;
+        taxRow[3].AddParagraph(taxAmount.ToString("C"));
+        taxRow[3].Format.Alignment = ParagraphAlignment.Right;
+        taxRow[3].Format.Font.Bold = true;
+        
+        // Calculate total
+        decimal total = subtotal + taxAmount;
+        
+        // Add total row with border
+        var totalRow = itemsTable.AddRow();
+        totalRow[0].AddParagraph("");
+        totalRow[1].AddParagraph("");
+        totalRow[2].AddParagraph("TOTAL:");
+        totalRow[2].Format.Alignment = ParagraphAlignment.Right;
+        totalRow[2].Format.Font.Bold = true;
+        totalRow[2].Format.Font.Size = Unit.FromPoint(12);
+        totalRow[3].AddParagraph(total.ToString("C"));
+        totalRow[3].Format.Alignment = ParagraphAlignment.Right;
+        totalRow[3].Format.Font.Bold = true;
+        totalRow[3].Format.Font.Size = Unit.FromPoint(12);
+        
+        // Add top border to total row
+        totalRow[2].Borders.Top.Width = Unit.FromPoint(1);
+        totalRow[2].Borders.Top.Color = Colors.Black;
+        totalRow[3].Borders.Top.Width = Unit.FromPoint(1);
+        totalRow[3].Borders.Top.Color = Colors.Black;
         
         var pdfDocument = new PdfDocument
         {
